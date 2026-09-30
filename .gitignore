@@ -37,7 +37,6 @@ dist-ssr/
 *.ckpt
 *.safetensors
 *.pkl
-*.joblib
 
 # IDE
 .vscode/

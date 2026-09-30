@@ -1,0 +1,239 @@
+# =========================================================
+# LOGS
+# =========================================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+
+# =========================================================
+# PYTHON
+# =========================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# Python build files
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Type checking
+.mypy_cache/
+.pyre/
+.pytype/
+
+
+# =========================================================
+# VIRTUAL ENVIRONMENTS
+# =========================================================
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Any venv folder inside the project
+**/venv/
+**/.venv/
+**/env/
+
+
+# =========================================================
+# ENVIRONMENT VARIABLES / SECRETS
+# =========================================================
+.env
+.env.*
+!.env.example
+
+# Local configuration
+*.secret
+secrets/
+secrets.json
+
+
+# =========================================================
+# JAVASCRIPT / NODE
+# =========================================================
+node_modules/
+**/node_modules/
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Vite
+dist/
+dist-ssr/
+.vite/
+
+# Local environment files
+*.local
+
+
+# =========================================================
+# FRONTEND BUILD FILES
+# =========================================================
+**/dist/
+**/dist-ssr/
+**/.vite/
+
+
+# =========================================================
+# JUPYTER NOTEBOOKS
+# =========================================================
+.ipynb_checkpoints/
+
+# Jupyter temporary files
+*.ipynb_checkpoints
+
+
+# =========================================================
+# MACHINE LEARNING MODEL FILES
+# =========================================================
+# Large trained models
+*.pt
+*.pth
+*.onnx
+*.h5
+*.hdf5
+*.keras
+*.ckpt
+*.safetensors
+*.joblib
+*.pkl
+
+# ML experiment/output folders
+runs/
+wandb/
+mlruns/
+checkpoints/
+
+# TensorBoard
+tensorboard/
+
+
+# =========================================================
+# DATASETS
+# =========================================================
+# Large datasets
+data/
+dataset/
+datasets/
+
+# Common dataset formats
+*.csv
+*.xlsx
+*.xls
+*.parquet
+*.feather
+
+# If you have small CSV files that SHOULD be uploaded,
+# remove *.csv from the section above.
+
+
+# =========================================================
+# CACHE / TEMPORARY FILES
+# =========================================================
+.cache/
+.cache-loader/
+.tmp/
+temp/
+tmp/
+
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+
+# =========================================================
+# VS CODE
+# =========================================================
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# VS Code history
+.history/
+
+
+# =========================================================
+# OTHER IDEs
+# =========================================================
+.idea/
+*.iml
+
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
+# =========================================================
+# OPERATING SYSTEM
+# =========================================================
+.DS_Store
+.DS_Store?
+._*
+
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+
+# =========================================================
+# WINDOWS
+# =========================================================
+$RECYCLE.BIN/
+*.lnk
+
+
+# =========================================================
+# FRONTEND TEST / COVERAGE
+# =========================================================
+coverage/
+.nyc_output/
+
+
+# =========================================================
+# TYPESCRIPT
+# =========================================================
+*.tsbuildinfo
+
+
+# =========================================================
+# OPTIONAL: LOCAL UPLOADS / GENERATED FILES
+# =========================================================
+uploads/
+outputs/
+output/
+results/
+generated/
+
+
+# =========================================================
+# OPTIONAL: PYCHARM / SPYDER
+# =========================================================
+.spyproject/
+.ropeproject/

@@ -13,6 +13,8 @@
 
 * { box-sizing: border-box; }
 
+:root { color-scheme: light; }
+
 body {
   display: block;
   margin: 0;
@@ -29,7 +31,7 @@ body {
   text-align: center;
   padding: 44px 20px 70px;
 }
-.hero h1 { margin: 0 0 8px; font-size: 2rem; }
+.hero h1 { margin: 0 0 8px; font-size: 2rem; color: #fff; }
 .hero p { margin: 0; opacity: 0.9; }
 
 /* ---------- Layout ---------- */
@@ -44,7 +46,7 @@ body {
 }
 
 .section { margin-top: 24px; }
-.section h2 { font-size: 1.15rem; margin: 0 0 12px; }
+.section h2 { font-size: 1.15rem; margin: 0 0 12px; color: var(--text); }
 
 .grid {
   display: grid;

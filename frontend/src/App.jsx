@@ -50,6 +50,7 @@ const SECTIONS = [
 ];
 
 const ALL_FIELDS = SECTIONS.flatMap((s) => s.fields);
+const MIN_FIELDS = 3; // keep in sync with MIN_FIELDS in app.py
 const CLASS_STYLE = { Good: "good", Average: "average", "At-Risk": "risk" };
 
 export default function App() {
@@ -87,12 +88,16 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error("Server error");
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || `Server error (${res.status})`);
       setResult(data);
       setHistory((h) => [{ name: name || "Unnamed student", label: data.label }, ...h].slice(0, 6));
     } catch (e) {
-      setError("Could not reach the prediction server. Is the Flask app running on port 5000?");
+      setError(
+        e instanceof TypeError
+          ? "Could not reach the prediction server. Is the Flask app running on port 5000?"
+          : e.message
+      );
     } finally {
       setLoading(false);
     }
@@ -157,9 +162,9 @@ export default function App() {
           <div className="panel">
             <div className="progress-label">{filled} / {ALL_FIELDS.length} fields filled</div>
             <div className="progress"><div style={{ width: `${(filled / ALL_FIELDS.length) * 100}%` }} /></div>
-            <p className="note">Blank cells are fine — missing values are filled in automatically.</p>
+            <p className="note">Blank cells are filled in automatically, but fill at least {MIN_FIELDS} fields — fewer means a mostly-guessed result.</p>
 
-            <button className="btn primary" onClick={handlePredict} disabled={loading || filled === 0}>
+            <button className="btn primary" onClick={handlePredict} disabled={loading || filled < MIN_FIELDS}>
               {loading ? "Predicting…" : "🔮 Predict Performance"}
             </button>
             <button className="btn ghost" onClick={handleReset}>Reset</button>

@@ -7,10 +7,12 @@ from flask_cors import CORS
 import joblib
 import numpy as np
 import pandas as pd
+from feedback import build_feedback
 from xgboost import XGBClassifier
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:5173", "http://127.0.0.1:5173"])
+# Allow the React dev server on ANY local port (5173, 5174, 3000 ...)
+CORS(app, origins=[r"http://localhost:\d+", r"http://127\.0\.0\.1:\d+"])
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -104,6 +106,9 @@ def predict():
 
         probs = model.predict_proba(pipeline.transform(df))[0]
         label = encoder.inverse_transform([int(np.argmax(probs))])[0]
+        # Use the cleaned values the user typed (before imputation) so we only
+        # give feedback on fields that were really provided.
+        feedback = build_feedback(df.iloc[0].where(df.iloc[0].notna(), None).to_dict())
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
     except Exception:
@@ -113,6 +118,7 @@ def predict():
     return jsonify({
         "label": label,
         "filled_fields": filled,
+        "feedback": feedback,
         "probabilities": {cls: float(p) for cls, p in zip(encoder.classes_, probs)},
     })
 

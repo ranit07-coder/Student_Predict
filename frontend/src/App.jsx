@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 const API_URL = "http://localhost:5000/predict";
@@ -53,13 +53,68 @@ const ALL_FIELDS = SECTIONS.flatMap((s) => s.fields);
 const MIN_FIELDS = 3; // keep in sync with MIN_FIELDS in app.py
 const CLASS_STYLE = { Good: "good", Average: "average", "At-Risk": "risk" };
 
+
+const SEV_ICON = { High: "🔴", Medium: "🟠", Low: "🟡" };
+
+function FeedbackSection({ feedback, name }) {
+  if (!feedback) return null;
+  const { weak_areas, on_track_count, not_provided } = feedback;
+
+  return (
+    <section className="feedback" id="feedback">
+      <h2>🧭 Improvement Feedback for {name || "this student"}</h2>
+
+      {weak_areas.length === 0 ? (
+        <div className="panel fb-good">
+          🎉 No weak areas found in the {on_track_count} fields you filled in — keep it up!
+        </div>
+      ) : (
+        <>
+          <p className="fb-summary">
+            Weak in <b>{weak_areas.length}</b> area{weak_areas.length > 1 ? "s" : ""}, on track in{" "}
+            <b>{on_track_count}</b>. Most important first:
+          </p>
+          <div className="fb-grid">
+            {weak_areas.map((w) => (
+              <div key={w.feature} className={`panel fb-card sev-${w.severity.toLowerCase()}`}>
+                <div className="fb-head">
+                  <span>{SEV_ICON[w.severity]} {w.label}</span>
+                  <span className="fb-sev">{w.severity} priority</span>
+                </div>
+                <div className="fb-improve">{w.improvement}</div>
+                <div className="fb-tip">💡 {w.tip}</div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {not_provided.length > 0 && (
+        <p className="note">Not assessed (left blank): {not_provided.join(", ")}.</p>
+      )}
+      <p className="note">
+        Targets are based on what typical "Good" students in the dataset achieve (25th percentile),
+        so treat them as guidance, not strict rules.
+      </p>
+    </section>
+  );
+}
+
 export default function App() {
   const [name, setName] = useState("");
   const [values, setValues] = useState({});
   const [result, setResult] = useState(null);
+  const [resultName, setResultName] = useState("");
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // After a new prediction, smoothly scroll down to the feedback section.
+  useEffect(() => {
+    if (result) {
+      setTimeout(() => document.getElementById("feedback")?.scrollIntoView({ behavior: "smooth", block: "start" }), 150);
+    }
+  }, [result]);
 
   const filled = ALL_FIELDS.filter((f) => values[f.key] !== undefined && values[f.key] !== "").length;
 
@@ -79,7 +134,7 @@ export default function App() {
     const payload = {};
     ALL_FIELDS.forEach((f) => {
       const v = values[f.key];
-      payload[f.key] = v === undefined || v === "" ? null : f.type === "select" ? v : Number(v);
+      payload[f.key] = v === undefined || v === "" ? null : f.options ? v : Number(v);
     });
 
     try {
@@ -91,6 +146,7 @@ export default function App() {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || `Server error (${res.status})`);
       setResult(data);
+      setResultName(name);
       setHistory((h) => [{ name: name || "Unnamed student", label: data.label }, ...h].slice(0, 6));
     } catch (e) {
       setError(
@@ -134,7 +190,7 @@ export default function App() {
                       {f.hint && <span className="hint">{f.hint}</span>}
                     </label>
 
-                    {f.type === "select" ? (
+                    {f.options ? (
                       <select value={values[f.key] ?? ""} onChange={(e) => handleChange(f.key, e.target.value)}>
                         <option value="">Select…</option>
                         {f.options.map((o) => <option key={o} value={o}>{o}</option>)}
@@ -186,6 +242,13 @@ export default function App() {
                   </div>
                 ))}
               </div>
+
+              <button
+                className="btn ghost"
+                onClick={() => document.getElementById("feedback")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+              >
+                🧭 View improvement feedback ↓
+              </button>
             </div>
           )}
 
@@ -204,6 +267,13 @@ export default function App() {
           )}
         </aside>
       </main>
+
+      {/* ---------- BOTTOM: improvement feedback (outside the 2-column grid so the sticky side panel can't overlap it) ---------- */}
+      {result && (
+        <div className="feedback-wrap">
+          <FeedbackSection feedback={result.feedback} name={resultName} />
+        </div>
+      )}
     </div>
   );
 }

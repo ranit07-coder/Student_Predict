@@ -1,0 +1,82 @@
+{
+  "Current CGPA (0 10)": {
+    "direction": "higher",
+    "target": 8.1,
+    "risk_median": 4.8
+  },
+  "No. of Backlogs": {
+    "direction": "lower",
+    "target": 0.0,
+    "risk_median": 3.0
+  },
+  "Active Backlogs": {
+    "direction": "lower",
+    "target": 0.0,
+    "risk_median": 2.0
+  },
+  "Attendance (%)": {
+    "direction": "higher",
+    "target": 81.2,
+    "risk_median": 48.1
+  },
+  "Assignment Submission (%)": {
+    "direction": "higher",
+    "target": 88.8,
+    "risk_median": 49.5
+  },
+  "Internal Marks (%)": {
+    "direction": "higher",
+    "target": 77.3,
+    "risk_median": 41.8
+  },
+  "Lab Score (%)": {
+    "direction": "higher",
+    "target": 77.3,
+    "risk_median": 41.5
+  },
+  "Daily Study Hours": {
+    "direction": "higher",
+    "target": 5.0,
+    "risk_median": 1.5
+  },
+  "Social Media (hrs/day)": {
+    "direction": "lower",
+    "target": 1.5,
+    "risk_median": 4.3
+  },
+  "Gaming (hrs/day)": {
+    "direction": "lower",
+    "target": 0.8,
+    "risk_median": 2.2
+  },
+  "Online Learning (hrs/day)": {
+    "direction": "higher",
+    "target": 1.5,
+    "risk_median": 0.6
+  },
+  "Online Certifications": {
+    "direction": "higher",
+    "target": 3.0,
+    "risk_median": 0.0
+  },
+  "Online Tuition (hrs/week)": {
+    "direction": "higher",
+    "target": 4.3,
+    "risk_median": 1.4
+  },
+  "Sleep (hrs/day)": {
+    "direction": "higher",
+    "target": 7.5,
+    "risk_median": 6.1
+  },
+  "Commute Time (min/day)": {
+    "direction": "lower",
+    "target": 23.0,
+    "risk_median": 61.0
+  },
+  "Physical Activity (hrs/week)": {
+    "direction": "higher",
+    "target": 4.0,
+    "risk_median": 1.3
+  }
+}
